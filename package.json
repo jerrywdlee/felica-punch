@@ -1,0 +1,23 @@
+{
+  "name": "felica-punch",
+  "version": "0.0.1",
+  "description": "Turn Your Raspberry Pi to a Punch Card Machine with PaSoRi(RC-S380)!",
+  "main": "bin/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "RaspberryPi",
+    "PaSoRi",
+    "Felica"
+  ],
+  "author": "Jerry Lee",
+  "license": "MIT",
+  "dependencies": {
+    "node-nfcpy-id": "^0.1.1",
+    "r2": "^2.0.0"
+  },
+  "devDependencies": {
+    "pi-sync": "^0.1.6"
+  }
+}
