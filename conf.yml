@@ -1,0 +1,6 @@
+# conf.yml
+host: http://localhost:3030
+port: 3030
+urls: 
+  punch: /api/punch
+  register: /api/register

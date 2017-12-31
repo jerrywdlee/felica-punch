@@ -14,10 +14,15 @@
   "author": "Jerry Lee",
   "license": "MIT",
   "dependencies": {
+    "log4js": "^2.4.1",
     "node-nfcpy-id": "^0.1.1",
-    "r2": "^2.0.0"
+    "r2": "^2.0.0",
+    "yamljs": "^0.3.0"
   },
   "devDependencies": {
+    "koa": "^2.4.1",
+    "koa-bodyparser": "^4.2.0",
+    "koa-router": "^7.3.0",
     "pi-sync": "^0.1.6"
   }
 }
