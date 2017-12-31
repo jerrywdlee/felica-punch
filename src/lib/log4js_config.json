@@ -1,0 +1,36 @@
+{
+  "appenders": {
+    "stdout": { 
+       "type": "stdout"
+    },
+    "system": {
+      "type": "dateFile",
+      "filename": "logs/access.log",
+      "pattern": "-yyyy-MM-dd",
+      "compress": true,
+      "category": "system"
+    },
+    "error": {
+      "type": "file",
+      "filename": "logs/error.log",
+      "maxLogSize": 10485760,
+      "compress": true,
+      "numBackups": 3
+    }
+  },
+   "categories": {
+    "default": { 
+      "appenders": [
+        "system",
+        "stdout"
+      ], 
+      "level": "trace"
+    },
+    "error": { 
+      "appenders": [
+        "error"
+      ], 
+      "level": "error"
+    }
+  }
+}
