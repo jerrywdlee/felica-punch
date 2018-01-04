@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Felica Punch</title>
+  <style>
+    .flex-container {
+      /* display: flex; */
+      /* flex-direction: column; */
+      /* justify-content: center; */
+      padding-top: 5em;
+      text-align: center;
+    }
+    #title {
+      font-size: 2.5em;
+    }
+  </style>
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io.connect('http://localhost:3033');
+    socket.on('connected', (data) => {
+      const el = document.querySelector('#connection');
+      el.innerHTML = 'Connected';
+      el.style.color = `green`;
+    });
+
+    let resetTimer = null;
+    const delay = 2500;
+    socket.on('punched', data => {
+      // console.log(data);
+      const colors = {
+        username: 'blue',
+        updated_at: 'green'
+      }
+      const time = new Date(data.updated_at).toLocaleString()
+      setLabel(data.user_name || data.slack_name, `Punched: ${time}`, colors);
+      if (resetTimer) clearTimeout(resetTimer);
+      resetTimer = createTimer(delay);
+    });
+
+    function setLabel(username, updated_at, colors = {}) {
+      const el_username = document.querySelector('#username');
+      const el_updated_at = document.querySelector('#updated_at');
+      el_username.innerHTML = username;
+      el_updated_at.innerHTML = updated_at;
+      if (colors.username) {
+        el_username.style.color = colors.username;
+      }
+      if (colors.updated_at) {
+        el_updated_at.style.color = colors.updated_at;
+      }
+    };
+
+    function createTimer(delay) {
+      const colors = {
+        username: 'black',
+        updated_at: 'black'
+      }
+      return setTimeout(() => {
+        setLabel('Wating...', '<span id="time-now"></span>', colors)
+      }, delay);
+    }
+
+    setInterval(() => {
+      const el = document.querySelector('#time-now');
+      if (el) {
+        el.innerHTML = new Date().toLocaleString();
+      }
+    }, 500);
+  </script>
+</head>
+<body>
+  <div class="flex-container">
+      <div>
+        <h1 id="title">Felica Punch</h1>
+      </div>
+      
+      <h2 id="connection">Wating...</h2>
+      <h1 id="username">No User</h1>
+      <h3 id="updated_at">
+        <span id="time-now"></span>
+      </h3>
+  </div>
+</body>
+</html>
