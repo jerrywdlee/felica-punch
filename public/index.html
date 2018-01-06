@@ -1,20 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
+  <!--
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  -->
   <title>Felica Punch</title>
   <style>
     .flex-container {
       /* display: flex; */
       /* flex-direction: column; */
       /* justify-content: center; */
-      padding-top: 5em;
+      padding-top: 3.5em;
       text-align: center;
     }
+
     #title {
       font-size: 2.5em;
+      margin-bottom: 0.1em;
+    }
+    #username {
+      font-size: 3.5em;
     }
   </style>
   <script src="/socket.io/socket.io.js"></script>
@@ -30,20 +38,31 @@
     const delay = 2500;
     socket.on('punched', data => {
       // console.log(data);
-      const colors = {
+      let colors = {
         username: 'blue',
         updated_at: 'green'
       }
-      const time = new Date(data.updated_at).toLocaleString()
-      setLabel(data.user_name || data.slack_name, `Punched: ${time}`, colors);
+      if (data.user_name || data.slack_name) {
+        const time = new Date(data.updated_at).toLocaleString();
+        setLabel(data.user_name || data.slack_name, data.description || data.card_uid, `Punched: ${time}`, colors);
+      } else {
+        colors = {
+          username: 'red',
+          updated_at: 'red'
+        }
+        const time = new Date().toLocaleString();
+        setLabel('Card Error!', data.error || 'Unkown Error', `Punched: ${time}`, colors);
+      }
       if (resetTimer) clearTimeout(resetTimer);
       resetTimer = createTimer(delay);
     });
 
-    function setLabel(username, updated_at, colors = {}) {
+    function setLabel(username, card_uid, updated_at, colors = {}) {
       const el_username = document.querySelector('#username');
+      const el_card_uid = document.querySelector('#card_uid');
       const el_updated_at = document.querySelector('#updated_at');
       el_username.innerHTML = username;
+      el_card_uid.innerHTML = card_uid;
       el_updated_at.innerHTML = updated_at;
       if (colors.username) {
         el_username.style.color = colors.username;
@@ -59,7 +78,7 @@
         updated_at: 'black'
       }
       return setTimeout(() => {
-        setLabel('Wating...', '<span id="time-now"></span>', colors)
+        setLabel('Wating For Touch', 'No Card', '<span id="time-now"></span>', colors)
       }, delay);
     }
 
@@ -71,17 +90,20 @@
     }, 500);
   </script>
 </head>
+
 <body>
   <div class="flex-container">
-      <div>
-        <h1 id="title">Felica Punch</h1>
-      </div>
-      
-      <h2 id="connection">Wating...</h2>
-      <h1 id="username">No User</h1>
-      <h3 id="updated_at">
-        <span id="time-now"></span>
-      </h3>
+    <div>
+      <h1 id="title">Felica Punch</h1>
+    </div>
+
+    <h2 id="connection">Wating...</h2>
+    <h1 id="username">Wating For Touch</h1>
+    <h2 id="card_uid">No Card</h2>
+    <h3 id="updated_at">
+      <span id="time-now"></span>
+    </h3>
   </div>
 </body>
+
 </html>

@@ -2,8 +2,11 @@
   "name": "felica-punch",
   "version": "0.0.1",
   "description": "Turn Your Raspberry Pi to a Punch Card Machine with PaSoRi(RC-S380)!",
-  "main": "bin/index.js",
+  "main": "main.js",
   "scripts": {
+    "build": "electron-packager .",
+    "dev": "electron .",
+    "dev-cui": "node src/index",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [
@@ -14,6 +17,10 @@
   "author": "Jerry Lee",
   "license": "MIT",
   "dependencies": {
+    "aport": "^2.0.0",
+    "koa": "^2.4.1",
+    "koa-router": "^7.3.0",
+    "koa-bodyparser": "^4.2.0",
     "koa-static": "^4.0.2",
     "log4js": "^2.4.1",
     "node-nfcpy-id": "^0.1.1",
@@ -23,9 +30,8 @@
     "yamljs": "^0.3.0"
   },
   "devDependencies": {
-    "koa": "^2.4.1",
-    "koa-bodyparser": "^4.2.0",
-    "koa-router": "^7.3.0",
+    "electron-packager": "^10.1.1",
+    "electron": "^1.7.10",
     "pi-sync": "^0.1.6"
   }
 }

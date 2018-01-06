@@ -128,4 +128,10 @@ $RECYCLE.BIN/
 # pi-sync.conf.yml
 pi-sync.conf.yml
 
+# build pkg
+felica-punch-electron-*-*
+
+# electron
+electron
+
 # End of https://www.gitignore.io/api/windows,macos,linux,node

@@ -1,0 +1,60 @@
+'use strict';
+const electron = require("electron");
+const path = require('path');
+const YAML = require('yamljs');
+
+const app = electron.app;
+const server = require('./src/lib/server');
+const nfc = require('./src/lib/nfc');
+const Fetch = require('./src/lib/fetch_url');
+const config = YAML.load(path.join(__dirname, './conf.yml'));
+const punch = new Fetch(config.host + config.urls.punch);
+const heartBeat = new Fetch(config.host + config.urls.heart_beat);
+
+const BrowserWindow = electron.BrowserWindow;
+
+let mainWindow;
+app.on('ready', async () => {
+  mainWindow = new BrowserWindow({ 
+    width: 800, height: 600, 
+    // kiosk: true, 
+    // 'fullscreen': true, 
+    // frame: false
+  });
+  try {
+    const url = await server.getUrl();
+    
+    console.log(url);
+    mainWindow.loadURL(url);
+
+    server.socket.on('connection', async (socket) => {
+      await heartBeat.get();
+      socket.emit('connected', { status: 'connected', server: config.host });
+    });
+    
+    nfc.on('touchstart', async (card) => {
+      console.log('touchstart', 'id:', card.id, 'type:', card.type);
+      const { id, type } = card;
+      const res = await punch.post({ card_uid: id, card_type: type });
+      console.log(res);
+      server.emit(res);
+    });
+    setInterval(async () => {
+      await heartBeat.get();
+    }, 20 * 60 * 1000);
+  } catch (e) {
+    console.error(e);
+  }
+  mainWindow.on('closed', function () {
+    mainWindow = null;
+  });
+});
+
+app.on('window-all-closed', async () => {
+  app.quit();
+  /*
+  if (process.platform != 'darwin') {
+    app.quit();
+  }
+  */
+});

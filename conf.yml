@@ -1,6 +1,7 @@
 # conf.yml
-host: http://localhost:3030
-port: 3030
+# host: https://felica-punch-server.herokuapp.com
+host: http://192.168.3.66:3030
+# port: 443
 urls: 
-  punch: /api/punch
-  register: /api/register
+  punch: /socket/punch
+  heart_beat: /socket/heart_beat
