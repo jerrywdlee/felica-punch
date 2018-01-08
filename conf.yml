@@ -5,3 +5,14 @@ host: http://192.168.3.66:3030
 urls: 
   punch: /socket/punch
   heart_beat: /socket/heart_beat
+## Cron Usage
+# ┌────────────── second (optional)
+# │ ┌──────────── minute
+# │ │ ┌────────── hour
+# │ │ │ ┌──────── day of month
+# │ │ │ │ ┌────── month
+# │ │ │ │ │ ┌──── day of week
+# │ │ │ │ │ │
+# │ │ │ │ │ │
+# * * * * * *
+heart_beat_cron: '*/25 8-22 * * 1-5'
