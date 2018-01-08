@@ -24,6 +24,18 @@
     #username {
       font-size: 3.5em;
     }
+    #close {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      font-size: 2em;
+      color: red;
+      font-weight: bolder;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      text-decoration: none;
+      /* border: 1px solid red;
+      border-radius: 5px;*/
+    }
   </style>
   <script src="/socket.io/socket.io.js"></script>
   <script>
@@ -88,11 +100,20 @@
         el.innerHTML = new Date().toLocaleString();
       }
     }, 500);
+
+    function close() {
+      const flg = confirm('Close App ?');
+      // console.log(flg);
+      if (flg) {
+        socket.emit('close_app');
+      }
+    }
   </script>
 </head>
 
 <body>
   <div class="flex-container">
+    <a id="close" href="javascript:close()">X</a>
     <div>
       <h1 id="title">Felica Punch</h1>
     </div>

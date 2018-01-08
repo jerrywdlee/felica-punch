@@ -18,8 +18,8 @@ app.on('ready', async () => {
   mainWindow = new BrowserWindow({ 
     width: 800, height: 600, 
     // kiosk: true, 
-    // 'fullscreen': true, 
-    // frame: false
+    fullscreen: true, 
+    frame: false
   });
   try {
     const url = await server.getUrl();
@@ -30,6 +30,10 @@ app.on('ready', async () => {
     server.socket.on('connection', async (socket) => {
       await heartBeat.get();
       socket.emit('connected', { status: 'connected', server: config.host });
+      socket.on('close_app', () => {
+        // console.log('close_app');
+        app.quit();
+      });
     });
     
     nfc.on('touchstart', async (card) => {
