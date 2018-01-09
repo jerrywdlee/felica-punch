@@ -9,7 +9,7 @@ const server = require('./src/lib/server');
 const nfc = require('./src/lib/nfc');
 const Fetch = require('./src/lib/fetch_url');
 const config = YAML.load(path.join(__dirname, './conf.yml'));
-const punch = new Fetch(config.host + config.urls.punch);
+const punch = new Fetch(config.host + config.urls.punch, config.device_uid);
 const heartBeat = new Fetch(config.host + config.urls.heart_beat);
 
 const BrowserWindow = electron.BrowserWindow;

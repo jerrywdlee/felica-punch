@@ -2,13 +2,15 @@
 const r2 = require('r2');
 
 class Fetch {
-  constructor(url) {
+  constructor(url, device_uid) {
     this.url = url;
+    this.device_uid = device_uid;
   }
   
   async post(data) {
     // console.log(this.url, data);
-    const res = await r2.post(this.url, { json: data }).text;
+    const headers = { "x-device-uid": this.device_uid };
+    const res = await r2.post(this.url, { headers, json: data }).text;
     return res;
   }
 
