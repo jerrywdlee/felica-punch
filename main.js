@@ -19,9 +19,9 @@ let lastTouched = Date.now();
 
 app.on('ready', async () => {
   mainWindow = new BrowserWindow({ 
-    width: 800, height: 600, 
+    width: 1024, height: 600, 
     // kiosk: true, 
-    // fullscreen: true, 
+    fullscreen: true, 
     frame: false
   });
   try {
