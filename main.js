@@ -3,19 +3,22 @@ const electron = require("electron");
 const path = require('path');
 const YAML = require('yamljs');
 const cron = require('node-cron');
+const { exec } = require('child_process');
+const url = require('url');
 
 const app = electron.app;
 const server = require('./src/lib/server');
 const nfc = require('./src/lib/nfc');
 const Fetch = require('./src/lib/fetch_url');
 const config = YAML.load(path.join(__dirname, './conf.yml'));
-const punch = new Fetch(config.host + config.urls.punch, config.device_uid);
-const heartBeat = new Fetch(config.host + config.urls.heart_beat);
+const punch = new Fetch(url.resolve(config.host, config.urls.punch), config.device_uid);
+const heartBeat = new Fetch(url.resolve(config.host, config.urls.heart_beat));
 
 const BrowserWindow = electron.BrowserWindow;
 
 let mainWindow;
 let lastTouched = Date.now();
+let SleepBlockerId = electron.powerSaveBlocker.start('prevent-display-sleep');
 
 app.on('ready', async () => {
   mainWindow = new BrowserWindow({ 
@@ -36,6 +39,12 @@ app.on('ready', async () => {
       socket.on('close_app', () => {
         // console.log('close_app');
         app.quit();
+      });
+      socket.on('shutdown_app', () => {
+        exec('sudo shutdown now', (err, stdout, stderr) => {
+          console.log(`stdout: ${stdout}`);
+          console.log(`stderr: ${stderr}`);
+        });
       });
     });
     

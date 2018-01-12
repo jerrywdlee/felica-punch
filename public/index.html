@@ -24,17 +24,22 @@
     #username {
       font-size: 5em;
     }
-    #close {
+    #close,#shutdown {
       position: absolute;
       top: 5px;
-      right: 10px;
-      font-size: 2em;
+      font-size: 1.2em;
       color: red;
-      font-weight: bolder;
+      font-weight: bold;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       text-decoration: none;
       /* border: 1px solid red;
       border-radius: 5px;*/
+    }
+    #close {
+      right: 10px;
+    }
+    #shutdown {
+      left: 10px;
     }
   </style>
   <script src="/socket.io/socket.io.js"></script>
@@ -110,12 +115,20 @@
         socket.emit('close_app');
       }
     }
+    function shutdown() {
+      const flg = confirm('Shutdown Device?');
+      // console.log(flg);
+      if (flg) {
+        socket.emit('shutdown_app');
+      }
+    }
   </script>
 </head>
 
 <body>
   <div class="flex-container">
-    <a id="close" href="javascript:close()">X</a>
+    <a id="close" href="javascript:close()">Close App</a>
+    <a id="shutdown" href="javascript:shutdown()">Shutdown</a>
     <div>
       <h1 id="title">Felica Punch</h1>
     </div>
