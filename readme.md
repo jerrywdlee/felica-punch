@@ -8,6 +8,7 @@ We used [node-nfcpy-id](https://github.com/mascii/node-nfcpy-id) as driver of Ca
 ```
 git clone https://github.com/jerrywdlee/felica-punch.git
 cd felica-punch
+npm i
 ```
 
 ## Setup Server
@@ -32,3 +33,16 @@ urls:
 # for customized stand up time(send heart beat to proof heroku sleep)
 heart_beat_cron: '*/25 8-22 * * 1-5'
 ```
+
+# Run App
+## Run As Dev Mode
+```
+npm run dev
+```
+
+## Build App
+```
+npm run build
+```
+
+Binary App will built as `felica-punch/felica-punch-linux-armv7l/felica-punch`
